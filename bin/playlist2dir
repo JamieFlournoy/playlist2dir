@@ -1,0 +1,5 @@
+#!/usr/bin/env -S ruby -w
+# frozen_string_literal: true
+
+require_relative '../lib/playlist2dir'
+
