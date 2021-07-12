@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'tempfile'
 require 'fileutils'
+require 'tempfile'
 
 TEST_MTIME=946598401
 MP3_CONTENTS='Test file'
