@@ -3,3 +3,4 @@
 
 require_relative '../lib/playlist2dir'
 
+Playlist2Dir::Runner.new(ARGV).run
