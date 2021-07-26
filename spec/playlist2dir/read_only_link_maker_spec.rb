@@ -21,16 +21,17 @@ describe Playlist2Dir::ReadOnlyLinkMaker do
       File.open(@src_filename, 'w+'){|mp3| mp3.write(MP3_CONTENTS) }
       FileUtils.touch(@src_filename, mtime: TEST_MTIME)
 
-      @conf = stub(:remove_root => @src_dir, :output_dir => @dest_dir)
+      @remove_root = @src_dir
     end
 
     after :example do
-      FileUtils.remove_entry @src_dir if @src_dir
-      FileUtils.remove_entry @dest_dir if @dest_dir
+      [@src_dir, @dest_dir].each do |d|
+        FileUtils.remove_entry d if d
+      end
     end
 
     it 'should create a hard link' do
-      rolm = Playlist2Dir::ReadOnlyLinkMaker.new(@conf)
+      rolm = Playlist2Dir::ReadOnlyLinkMaker.new(@remove_root, @src_dir, @dest_dir)
       rolm.write_for(@src_filename)
 
       open(@expected_dest_filename) do
@@ -40,7 +41,7 @@ describe Playlist2Dir::ReadOnlyLinkMaker do
     end
 
     it 'should set file mode 440 on the hard link' do
-      rolm = Playlist2Dir::ReadOnlyLinkMaker.new(@conf)
+      rolm = Playlist2Dir::ReadOnlyLinkMaker.new(@remove_root, @src_dir, @dest_dir)
       rolm.write_for(@src_filename)
 
       mode = File.stat(@expected_dest_filename).mode & 0777
@@ -48,7 +49,7 @@ describe Playlist2Dir::ReadOnlyLinkMaker do
     end
 
     it 'should copy the modification time from the source file' do
-      rolm = Playlist2Dir::ReadOnlyLinkMaker.new(@conf)
+      rolm = Playlist2Dir::ReadOnlyLinkMaker.new(@remove_root, @src_dir, @dest_dir)
       rolm.write_for(@src_filename)
 
       expect(File.stat(@expected_dest_filename).mtime.to_i).to eq TEST_MTIME
