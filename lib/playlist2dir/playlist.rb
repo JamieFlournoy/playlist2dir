@@ -3,8 +3,6 @@
 module Playlist2Dir
   class Playlist
 
-    #attr_reader :filename
-
     def initialize(filename)
       raise "Playlist file not found at #{filename}" unless File.exists?(filename)
       @filename = filename
