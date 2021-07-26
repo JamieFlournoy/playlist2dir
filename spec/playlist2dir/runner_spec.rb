@@ -15,7 +15,7 @@ describe Playlist2Dir::Runner do
 
   context '.dest_dir' do
     it 'should be the basedir plus _generated' do
-      runner = Playlist2Dir::Runner.new('foo', 'bar')
+      runner = Playlist2Dir::Runner.new('foo', 'bar', 'biz')
       expect(runner.dest_dir).to eq('foo/_generated')
     end
   end
@@ -23,7 +23,7 @@ describe Playlist2Dir::Runner do
   context '.output_playlist' do
     it 'should be the _generated dir plus the output_filename from the config' do
       playlist_filename = File.join(fixture_dir('playlists'), 'valid.m3u8')
-      runner = Playlist2Dir::Runner.new('foo', playlist_filename)
+      runner = Playlist2Dir::Runner.new('foo', playlist_filename, '/phone/root/')
       expect(runner.output_playlist).to eq('foo/_generated/a_playlist.m3u8')
     end
   end

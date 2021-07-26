@@ -5,12 +5,13 @@ module Playlist2Dir
 
     attr_reader :basedir, :dest_dir, :phone_root, :playlist_file
 
-    def initialize(*args)
-      @basedir = args[0]
-      @dest_dir = File.join(@basedir, '_generated')
-      @playlist_file = args[1]
+    def initialize(basedir, playlist_file, phone_root)
+      @basedir = basedir
+      @dest_dir = File.join(basedir, '_generated')
 
-      @phone_root =  args[2]
+      @playlist_file = playlist_file
+
+      @phone_root =  phone_root
 
       @config = nil
       @output_playlist = nil
