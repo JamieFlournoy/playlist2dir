@@ -1,0 +1,3 @@
+---
+output_filename: "a_playlist.m3u8"
+remove_root: "/prefix/"

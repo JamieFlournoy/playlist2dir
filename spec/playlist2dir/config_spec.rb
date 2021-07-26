@@ -4,18 +4,18 @@ require 'tempfile'
 
 describe Playlist2Dir::Config do
   before :example do
-    @valid_opts = {:remove_root => '/foo', :output_dir => '/bar'}
+    @valid_opts = {:remove_root => '/foo', :output_filename => 'test.m3u8'}
   end
 
   context '.initialize' do
-    it 'should require an :output_dir option' do
-      @valid_opts.delete(:output_dir)
-      expect{ Playlist2Dir::Config.new(@valid_opts) }.to raise_error(/output_dir/i)
+    it 'should require an :output_filename option' do
+      @valid_opts.delete(:output_filename)
+      expect{ Playlist2Dir::Config.new(@valid_opts) }.to raise_error(/output_filename/i)
     end
 
-    it 'should require a non-empty :output_dir option' do
-      @valid_opts.delete(:output_dir)
-      expect{ Playlist2Dir::Config.new(@valid_opts) }.to raise_error(/output_dir/i)
+    it 'should require a non-empty :output_filename option' do
+      @valid_opts.delete(:output_filename)
+      expect{ Playlist2Dir::Config.new(@valid_opts) }.to raise_error(/output_filename/i)
     end
 
     it 'should require a :remove_root option' do
@@ -27,9 +27,9 @@ describe Playlist2Dir::Config do
       @valid_opts[:remove_root] = ''
       expect{ Playlist2Dir::Config.new(@valid_opts) }.to raise_error(/remove_root/i)
     end
-end
+  end
 
-  context '.from_yaml_near_playlist' do
+  context '.yaml_filename_for' do
     it 'should automatically pick a YAML filename' do
       yaml_filename = Playlist2Dir::Config.yaml_filename_for('/foo/bar/biz.baz.m3u')
       expected_yaml_filename = '/foo/bar/biz.baz-config.yml'
@@ -40,9 +40,12 @@ end
       expect(yaml_filename).to eql(expected_yaml_filename)
     end
 
+  end
+
+  context '.from_yaml_near_playlist' do
     it 'should read the constructor options from the file' do
-      yaml_to_write = "---\n - remove_root: /foo\n   output_dir: /bar\n"
-      options = {:output_dir => '/bar', :remove_root => '/foo'}
+      yaml_to_write = "---\nremove_root: /foo\noutput_filename: /bar\n"
+      options = {:output_filename => '/bar', :remove_root => '/foo'}
       expected_conf = Playlist2Dir::Config.new(options)
 
       begin

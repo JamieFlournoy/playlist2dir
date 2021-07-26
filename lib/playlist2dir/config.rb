@@ -8,8 +8,12 @@ module Playlist2Dir
 
     def self.from_yaml_near_playlist(playlist_path)
       File.open(yaml_filename_for(playlist_path)) do |y|
-        obj = from_yaml(y.read)
-        Playlist2Dir::Config.new(obj[0].transform_keys(&:to_sym))
+        contents = y.read
+#        puts contents
+        obj = from_yaml(contents)
+#        puts "obj: #{obj.inspect}"
+
+        Playlist2Dir::Config.new(obj.transform_keys(&:to_sym))
       end
     end
 
@@ -25,18 +29,18 @@ module Playlist2Dir
       YAML.load(config_yaml)
     end
 
-    attr_reader :output_dir, :remove_root
+    attr_reader :output_filename, :remove_root
 
     def initialize(opts = {})
-      @output_dir = require_key(opts, :output_dir)
+      @output_filename = require_key(opts, :output_filename)
       @remove_root = require_key(opts, :remove_root)
     end
 
     def ==(other)
-      other.respond_to?(:output_dir) &&
+      other.respond_to?(:output_filename) &&
         other.respond_to?(:remove_root) &&
         other.remove_root == @remove_root &&
-        other.output_dir == @output_dir
+        other.output_filename == @output_filename
     end
     alias_method :eql?, :==
 
