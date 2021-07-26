@@ -4,7 +4,7 @@ module Playlist2Dir
   class Playlist
 
     def initialize(filename)
-      raise "Playlist file not found at #{filename}" unless File.exists?(filename)
+      raise "Playlist file not found at #{filename}" unless File.exist?(filename)
       @filename = filename
     end
 
