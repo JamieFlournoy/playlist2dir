@@ -4,6 +4,13 @@ module Playlist2Dir
   class ReadOnlyLinkMaker
     def initialize(remove_root, src_dir, output_dir)
       @remove_root = remove_root
+
+      if src_dir.end_with?('/')
+        unless output_dir.end_with?('/')
+          output_dir = "#{output_dir}/"
+        end
+      end
+
       @src_dir = src_dir
       @output_dir = output_dir
     end
@@ -14,7 +21,6 @@ module Playlist2Dir
       end
       relpath = source_file[@remove_root.length..-1]
       repathed_source_file = File.join(@src_dir, relpath)
-      dest_file = File.join(@output_dir, relpath)
 
       unless File.exist?(repathed_source_file)
         # Try to handle iTunes' bizarrely inconsistent encoding of
@@ -31,12 +37,19 @@ module Playlist2Dir
         Dir.new(dir).each{|f| puts "'#{f}'"}
       end
 
+      # Don't use relpath here, since it may contain characters that
+      # were in the playlist but which do not exist in the filesystem
+      # version of the path to the actual file (as found by
+      # try_find_with_unicode_alternatives).
+      dest_file = repathed_source_file.gsub(@src_dir, @output_dir)
+
       link_already_exists = false
       if File.exist?(dest_file)
         src_inode_num = File.stat(repathed_source_file).ino
         dest_inode_num = File.stat(dest_file).ino
         raise "File '#{dest_file}' exists and is not a link to '#{repathed_source_file}'" if (src_inode_num != dest_inode_num)
         link_already_exists = true
+        puts "Link existed at #{dest_file}"
       end
 
       unless link_already_exists
@@ -44,6 +57,8 @@ module Playlist2Dir
         FileUtils.ln(repathed_source_file, dest_file)
       end
       FileUtils.chmod(0440, dest_file)
+
+      !link_already_exists
     end
 
     private

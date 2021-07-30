@@ -34,9 +34,11 @@ module Playlist2Dir
             i = config.remove_root.length
             output_line = "#{phone_root}#{l[i..-1]}\n"
             output.puts output_line
-            puts output_line
 
-            rolm.write_for(l)
+            made_link = rolm.write_for(l)
+            if made_link
+              puts output_line
+            end
           else
             STDERR.puts "Track has unexpected path prefix: #{l}"
           end
