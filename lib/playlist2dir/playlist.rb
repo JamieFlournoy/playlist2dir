@@ -9,7 +9,7 @@ module Playlist2Dir
     end
 
     def each(&block)
-      File.foreach(@filename, "\r") do |line|
+      File.foreach(@filename, "\r", :encoding => 'bom|UTF-8') do |line|
         unless line.start_with?('#')
           block.yield line.chomp
         end

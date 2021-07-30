@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# encoding: UTF-8
 
 require 'tempfile'
 require 'yaml'
@@ -61,7 +62,7 @@ describe Playlist2Dir::Runner do
 
       expected_rewritten_playlist_contents =
         "/a/phone/mp3/dir/A-C/A Band/01. A song.mp3\n" +
-        "/a/phone/mp3/dir/U-Z/Your Favorite Band/09. That Hit Song.flac\n" +
+        "/a/phone/mp3/dir/U-Z/Your Favorite Band/09. That Hit Song Chegan\x63\xCC\xA7a.flac\n" +
         "/a/phone/mp3/dir/L-M/My Favorite Band/22. That Hidden Track.ogg\n"
 
       rewritten_playlist_contents = nil
@@ -79,7 +80,7 @@ describe Playlist2Dir::Runner do
 
       expected_hardlink_paths =
         ["#{runner.dest_dir}/A-C/A Band/01. A song.mp3",
-         "#{runner.dest_dir}/U-Z/Your Favorite Band/09. That Hit Song.flac",
+         "#{runner.dest_dir}/U-Z/Your Favorite Band/09. That Hit Song Chegan\x63\xCC\xA7a.flac",
          "#{runner.dest_dir}/L-M/My Favorite Band/22. That Hidden Track.ogg"]
 
       expect(File.exists?(expected_hardlink_paths[0])).to be_truthy

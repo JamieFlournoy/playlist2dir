@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# encoding: UTF-8
 
 require 'fileutils'
 require 'tempfile'
@@ -24,9 +25,11 @@ describe Playlist2Dir::Playlist do
 
   context '.each' do
     it 'should pass each non-comment line in the playlist to a block' do
-      expected_lines = [ "/prefix/A-C/A Band/01. A song.mp3",
-                   "/prefix/U-Z/Your Favorite Band/09. That Hit Song.flac",
-                   "/prefix/L-M/My Favorite Band/22. That Hidden Track.ogg" ]
+      expected_lines = [
+        "/prefix/A-C/A Band/01. A song.mp3",
+        "/prefix/U-Z/Your Favorite Band/09. That Hit Song Chegan\x63\xCC\xA7a.flac",
+        "/prefix/L-M/My Favorite Band/22. That Hidden Track.ogg"
+      ]
 
       playlist = Playlist2Dir::Playlist.new(fixture('playlists/valid.m3u8'))
       lines = []
