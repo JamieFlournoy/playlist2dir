@@ -2,7 +2,9 @@
 
 source "https://rubygems.org"
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+ruby '~>2.7.2'
+
+git_source(:github) {|repo_name| "https://github.com/JamieFlournoy/playlist2dir" }
 
 group :test do
   gem 'autotest-standalone', '~> 4.5'
