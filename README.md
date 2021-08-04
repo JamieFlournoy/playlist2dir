@@ -1,12 +1,19 @@
 # Overview
 
-playlist2dir is a program for Linux that will create a directory of MP3 files that are named in an .m3u8 playlist.
+**playlist2dir** is a program for Linux that will create a directory of audio files that are listed as tracks in an .m3u8 playlist.
 
-To save disk space and avoid unnecessary file copying, the MP3 files that playlist2dir creates are actually hard linked to the original files.
+To save disk space and avoid unnecessary file copying, the audio files that playlist2dir creates are actually hard linked to the original files.
 
 (If you aren't familiar with hard links, they are multiple directory entries that all refer to the same data on disk - unlike a symbolic link, there is no "main" hard link to a file. They are all equally "real".)
 
-This means that the directory it creates takes up almost no extra disk space, but it must be located on the same volume as the MP3s described in the playlist.
+This means that the directory it creates takes up almost no extra disk space, but it must be located on the same volume as the files described in the playlist.
+
+## Suitability
+
+This program was by the author for personal use, to solve a very specific problem: carefully rated and curated playlists made in iTunes on a Mac, referring to a large MP3 collection stored on a Linux file server, which the author wants to copy to a mobile phone en masse in a way that audio player apps can consume easily.
+
+If you have exactly this problem, it may be useful for you. If not, it probably won't.
+
 
 # Setup
 
@@ -14,7 +21,7 @@ This means that the directory it creates takes up almost no extra disk space, bu
 
 ### Where the tracks are
 
-Tracks are the audio files, in MP3 format or any other format that is stored in a local file, that are referenced by the playlist.
+*Tracks* are the audio files, in MP3 format or any other format that is stored in a local file, that are referenced by the playlist.
 
 You must first ensure that all of the tracks  in the playlist are located on one volume together. If this is not the case, you will need to split the playlist into one playlist per volume of tracks.
 
@@ -53,7 +60,7 @@ The output directory is determined by adding "/_generated/" to the root director
 A playlist file will be created which contains all of the tracks that were copied, with their paths adjusted to point to where the files will go on the phone. This means that, assuming the user provides the correct paths when running the command, the playlist can be copied to the phone and should work as-is to play all of the tracks.
 
 
-## Running
+# Running
 
 The playlist2dir executable takes three command line arguments:
 
@@ -63,7 +70,7 @@ The playlist2dir executable takes three command line arguments:
 
 3. The path on the Android phone to where the MP3 collection for this playlist will end up.
 
-## Example:
+# Usage example:
 
 A Linux host has a collection of MP3 files in `/usr/local/mp3s/`, exported via Samba as the SMB volume `mp3s`. A Mac laptop mounts this at `/Volumes/mp3s/`, and the user imports the files into iTunes and creates a playlist by hand. The user exports the playlist as `MyPlaylist.m3u8` on the Mac, and copies that to `/home/someuser/MyPlaylist.m3u8` on the Linux host.
 
@@ -99,4 +106,12 @@ The user copies the contents of _generated to the phone's storage at `/storage/1
 ## Multiple playlists
 
 The intent of playlist2dir is to allow the user to make multiple playlists on the desktop/server and then to export those to the phone along with the tracks. Tracks that are on multiple playlists will be shared among those playlists, appearing only once in the _generated directory.
+
+# License and Contact
+
+See [LICENSE.txt](LICENSE.txt).
+
+If you're feeling frisky and don't mind filing bugs and pull requests against a personal project that probably will not be maintained much, feel free to scream into the void at [https://github.com/JamieFlournoy/playlist2dir](https://github.com/JamieFlournoy/playlist2dir). If you fork this project and never tell me about it my feelings won't be hurt.
+
+If you want to email me, use [jamie@pervasivecode.com](mailto:jamie@pervasivecode.com). 
 
