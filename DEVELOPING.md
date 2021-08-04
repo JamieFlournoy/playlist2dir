@@ -10,5 +10,4 @@
 
 5. Run "bundle" to install the gems needed by this project
 
-6. Run "rspec" to run tests, "autotest" to run tests in a loop that executes them every time a file changes, or run "./bin/playlist2dir" to run the program itself
-
+6. Run "rspec" to run tests, "autotest" to run tests in a loop that executes them every time a file changes, or run "./bin/playlist2dir" to run the program itself. There is a sample script in bin/ called build\_phone\_mp3s.sh that is a real world example of how to use playlist2dir.

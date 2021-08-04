@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $(uname) != "Linux" ]; then
-    echo "Run this on Linux, dummy."
+    echo "Run this on the Linux host where the tracks are stored."
     exit 1
 fi
 
